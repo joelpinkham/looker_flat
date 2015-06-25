@@ -90,35 +90,35 @@
     sql: ${TABLE}.LastSeenContent
 
   - measure: leathers_paid_revenue
-    type: number
+    type: sum
     sql: ${TABLE}.LeathersPaidRevenue
 
   - measure: local_to_usd_rate_on_date
-    type: number
+    type: sum
     sql: ${TABLE}.LocalToUsdRateOnDate
 
   - measure: net_refund_txns_aud
-    type: number
+    type: sum
     sql: ${TABLE}.NetRefundTxnsAUD
 
   - measure: net_transactions
-    type: number
+    type: sum
     sql: ${TABLE}.NetTransactions
 
   - measure: num_credit_transactions
-    type: int
+    type: sum
     sql: ${TABLE}.NumCreditTransactions
 
   - measure: num_custom_stamps
-    type: int
+    type: sum
     sql: ${TABLE}.NumCustomStamps
 
   - measure: num_failed_transactions
-    type: int
+    type: sum
     sql: ${TABLE}.NumFailedTransactions
 
   - measure: num_internal
-    type: int
+    type: sum
     sql: ${TABLE}.NumInternal
 
   - dimension: num_orders_by_this_customer
@@ -134,23 +134,23 @@
     sql: ${TABLE}.NumPairs
 
   - measure: num_redeemed
-    type: int
+    type: sum
     sql: ${TABLE}.NumRedeemed
 
   - measure: num_refund_transactions
-    type: int
+    type: sum
     sql: ${TABLE}.NumRefundTransactions
 
   - measure: num_remakes
-    type: int
+    type: sum
     sql: ${TABLE}.NumRemakes
 
   - measure: num_shoe_orders
-    type: int
+    type: sum
     sql: ${TABLE}.NumShoeOrders
 
   - measure: num_transactions
-    type: int
+    type: sum
     sql: ${TABLE}.NumTransactions
 
   - dimension: order_by_repeat_customer
@@ -167,19 +167,19 @@
   - dimension: original_order
     sql: ${TABLE}.OriginalOrder
 
-  - measure: paid
-    type: number
+  - measure: total_paid_local
+    type: sum
     sql: ${TABLE}.Paid
 
   - dimension: promo
     sql: ${TABLE}.Promo
 
-  - measure: repeat_revenue
-    type: number
+  - measure: repeat_revenue_local
+    type: sum
     sql: ${TABLE}.RepeatRevenue
 
   - measure: repeat_revenue_aud
-    type: number
+    type: sum
     sql: ${TABLE}.RepeatRevenueAUD
 
 #   - dimension: sales_region
@@ -188,12 +188,12 @@
   - dimension: sales_rep
     sql: ${TABLE}.SalesRep
 
-  - measure: shoe_order_amount
-    type: number
+  - measure: shoe_order_amount_aud
+    type: sum
     sql: ${TABLE}.ShoeOrderAmount
 
-  - measure: shoe_paid_revenue
-    type: number
+  - measure: shoe_paid_revenue_aud
+    type: sum
     sql: ${TABLE}.ShoePaidRevenue
 
   - dimension: state
@@ -203,15 +203,15 @@
     sql: ${TABLE}.Status
 
   - measure: total
-    type: number
+    type: sum
     sql: ${TABLE}.Total
 
   - measure: total_aud
-    type: number
+    type: sum
     sql: ${TABLE}.TotalAUD
 
   - measure: total_credits_aud
-    type: number
+    type: sum
     sql: ${TABLE}.TotalCreditsAUD
 
   - measure: total_paid_aud
@@ -219,15 +219,15 @@
     sql: ${TABLE}.TotalPaidAUD
 
   - measure: total_paid_revenue_aud
-    type: number
+    type: sum
     sql: ${TABLE}.TotalPaidRevenueAUD
     
   - measure: total_paid_revenue_usd
-    type: number
+    type: sum
     sql: ${TABLE}.TotalPaidRevenueAUD * ${aud_to_usd_rate_on_date}
 
   - measure: total_revenue
-    type: number
+    type: sum
     sql: ${TABLE}.TotalRevenue
 
   - measure: total_revenue_aud
@@ -243,38 +243,39 @@
     sql: ${TABLE}.UnixTimestamp
 
   - measure: value_gifts
-    type: number
+    type: sum
     sql: ${TABLE}.ValueGifts
 
   - measure: value_gifts_aud
+    type: sum
     sql: ${TABLE}.ValueGiftsAUD
 
   - measure: value_item_add_ons_aud
-    type: number
+    type: sum
     sql: ${TABLE}.ValueItemAddOnsAUD
 
   - measure: value_leather
-    type: number
+    type: sum
     sql: ${TABLE}.ValueLeather
 
   - measure: value_order_line_add_ons_aud
-    type: number
+    type: sum
     sql: ${TABLE}.ValueOrderLineAddOnsAUD
 
   - measure: value_sales_tax_aud
-    type: number
+    type: sum
     sql: ${TABLE}.ValueSalesTaxAUD
 
   - measure: value_sales_tax_local
-    type: number
+    type: sum
     sql: ${TABLE}.ValueSalesTaxLocal
 
   - measure: value_shipping_aud
-    type: number
+    type: sum
     sql: ${TABLE}.ValueShippingAUD
 
   - measure: value_shoes
-    type: number
+    type: sum
     sql: ${TABLE}.ValueShoes
 
   - dimension: voucher_customer
