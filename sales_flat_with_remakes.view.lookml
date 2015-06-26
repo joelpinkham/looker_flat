@@ -7,6 +7,14 @@
 
   - dimension: affiliate
     sql: ${TABLE}.Affiliate
+    
+  - dimension: affiliate_group
+    sql: |
+          CASE  WHEN regexp_match(${affiliate}, 'google|Google|GDN|FB|bing|Bing') THEN 'Online Paid Advertising'
+                WHEN ${affiliate} = 'EasyWeddings' THEN 'Wedding Directory'
+                WHEN regexp_match(${affiliate}, 'nordstrom|Nordstrom|david-jones|djs|westfield|Westfield') THEN 'Retail Partners'
+                ELSE 'Other'
+          END
 
   - dimension: any_cr
     sql: ${TABLE}.AnyCR
@@ -30,6 +38,14 @@
 
   - dimension: country
     sql: ${TABLE}.Country
+    
+  - dimension: country_group
+    sql: |
+          CASE WHEN ${country} = 'US'
+              WHEN ${country} = 'AU'
+              ELSE 'International'
+          END
+    
 
   - measure: credits_used
     type: sum
@@ -43,6 +59,8 @@
     sql: ${TABLE}.CustomerID
 
   - dimension: date
+    type: time
+    timeframes: [date, week, month]
     sql: ${TABLE}.Date
 
   - dimension: express_production
@@ -269,6 +287,7 @@
 
   - dimension_group: unix_timestamp
     type: time
+    datatype: timestamp
     timeframes: [time, date, week, month]
     sql: ${TABLE}.UnixTimestamp
 
@@ -313,7 +332,25 @@
 
   - dimension: website
     sql: ${TABLE}.Website
+    
+  - dimension: sales_channel
+    sql: |
+          CASE  WHEN ${website} CONTAINS 'iPad' THEN 'Store iPad App'
+                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'shoesofprey.com'
+                WHEN ${website} = 'www.nordstrom.com' THEN 'nordstrom.com'
+                ELSE 'Other'
+          END
 
+  - dimension: distribution_partner
+    sql: |
+          CASE  WHEN ${website} CONTAINS 'westfield' THEN 'Westfield'
+                WHEN ${website} CONTAINS 'david' THEN 'DJs'
+                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'Shoes of Prey Direct'
+                WHEN ${website} = 'www.nordstrom.com' THEN 'Nordstrom.com'
+                WHEN ${website} = 'nordstrom' THEN 'Nordstrom Store'
+                ELSE 'Other'
+          END
+  
   - dimension: zip
     sql: ${TABLE}.Zip
 
