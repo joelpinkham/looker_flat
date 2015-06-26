@@ -287,7 +287,7 @@
 
   - dimension_group: unix_timestamp
     type: time
-    datatype: timestamp
+    #datatype: timestamp
     timeframes: [time, date, week, month]
     sql: ${TABLE}.UnixTimestamp
 
