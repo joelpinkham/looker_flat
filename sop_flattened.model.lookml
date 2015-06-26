@@ -7,4 +7,5 @@
 # NOTE: for BigQuery specific considerations
 
 - explore: sales
+- explore: sales_flat_with_remakes
 - explore: customers
