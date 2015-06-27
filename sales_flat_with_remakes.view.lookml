@@ -191,9 +191,17 @@
     type: int
     sql: ${TABLE}.original_order_id_int
 
-  - measure: paid
+  - measure: paid_local
     type: sum
     sql: ${TABLE}.Paid
+    
+#   - dimension: has_cash_payment
+#     type: int
+#     sql: IF (${paid_local} > 0, 1, 0)
+#     
+  - dimension: has_cash_or_gift_payment
+#     type: int
+    sql: IF ((${paid_local} + ${gifts_used}) > 0,'yes', 'no')
 
   - measure: paid_plus_gift_percent
     type: sum
@@ -287,9 +295,9 @@
 
   - dimension_group: unix_timestamp
     type: time
-    #datatype: timestamp
     timeframes: [time, date, week, month]
-    sql: ${TABLE}.UnixTimestamp
+    datatype: epoch
+    sql: (${TABLE}.UnixTimestamp)/1000000
 
   - measure: value_gifts
     type: sum
@@ -347,7 +355,7 @@
                 WHEN ${website} CONTAINS 'david' THEN 'DJs'
                 WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'Shoes of Prey Direct'
                 WHEN ${website} = 'www.nordstrom.com' THEN 'Nordstrom.com'
-                WHEN ${website} = 'nordstrom' THEN 'Nordstrom Store'
+                WHEN ${website} CONTAINS 'nordstrom' THEN 'Nordstrom Store'
                 ELSE 'Other'
           END
   
