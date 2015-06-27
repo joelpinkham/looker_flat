@@ -1,5 +1,5 @@
 - view: sales
-  sql_table_name: SOP_Views.SalesReport_AllYears
+  sql_table_name: SOP_Views.SalesFlatWithRemakes
   fields:
 
   - dimension: account_created_date
@@ -7,19 +7,27 @@
 
   - dimension: affiliate
     sql: ${TABLE}.Affiliate
+    
+  - dimension: affiliate_group
+    sql: |
+          CASE  WHEN regexp_match(${affiliate}, 'google|Google|GDN|FB|bing|Bing') THEN 'Online Paid Advertising'
+                WHEN ${affiliate} = 'EasyWeddings' THEN 'Wedding Directory'
+                WHEN regexp_match(${affiliate}, 'nordstrom|Nordstrom|david-jones|djs|westfield|Westfield') THEN 'Retail Partners'
+                ELSE 'Other'
+          END
 
   - dimension: any_cr
     sql: ${TABLE}.AnyCR
 
-  - measure: aud_to_usd_rate_on_date
+  - dimension: aud_to_usd_rate_on_date
     type: number
     sql: ${TABLE}.AudToUsdRateOnDate
 
-  - measure: average_basket_paid
+  - dimension: average_basket_paid
     sql: ${TABLE}.AverageBasketPaid
 
   - measure: balance_aud
-    type: number
+    type: sum
     sql: ${TABLE}.BalanceAUD
 
   - dimension: city
@@ -30,9 +38,17 @@
 
   - dimension: country
     sql: ${TABLE}.Country
+    
+  - dimension: country_group
+    sql: |
+          CASE WHEN ${country} = 'US'
+              WHEN ${country} = 'AU'
+              ELSE 'International'
+          END
+    
 
-  - dimension: credits_used
-    type: number
+  - measure: credits_used
+    type: sum
     sql: ${TABLE}.CreditsUsed
 
   - dimension: currency
@@ -43,6 +59,8 @@
     sql: ${TABLE}.CustomerID
 
   - dimension: date
+    type: time
+    timeframes: [date, week, month]
     sql: ${TABLE}.Date
 
   - dimension: express_production
@@ -65,14 +83,14 @@
     sql: ${TABLE}.FreeGiftCert
 
   - measure: gift_paid_revenue
-    type: number
+    type: sum
     sql: ${TABLE}.GiftPaidRevenue
 
   - dimension: gift_voucher
     sql: ${TABLE}.GiftVoucher
 
   - measure: gifts_used
-    type: number
+    type: sum
     sql: ${TABLE}.GiftsUsed
 
   - dimension: is_internal
@@ -81,7 +99,7 @@
 
   - dimension: is_remake
     type: yesno
-    sql: ${TABLE}.IsRemake
+    sql: IF(${TABLE}.IsRemake = 'Remake', TRUE, FALSE)
 
   - dimension: lang
     sql: ${TABLE}.Lang
@@ -94,7 +112,7 @@
     sql: ${TABLE}.LeathersPaidRevenue
 
   - measure: local_to_usd_rate_on_date
-    type: sum
+    #type: sum
     sql: ${TABLE}.LocalToUsdRateOnDate
 
   - measure: net_refund_txns_aud
@@ -121,8 +139,8 @@
     type: sum
     sql: ${TABLE}.NumInternal
 
-  - dimension: num_orders_by_this_customer
-    type: int
+  - measure: num_orders_by_this_customer
+    type: sum
     sql: ${TABLE}.NumOrdersByThisCustomer
 
   - measure: num_paid
@@ -154,27 +172,50 @@
     sql: ${TABLE}.NumTransactions
 
   - dimension: order_by_repeat_customer
-    type: yesno
+    type: int
     sql: ${TABLE}.OrderByRepeatCustomer
 
   - dimension: order_id
     sql: ${TABLE}.OrderID
 
+  - dimension: order_id_int
+    type: int
+    sql: ${TABLE}.order_id_int
+
   - dimension: order_with_payment
-    type: yesno
     sql: ${TABLE}.OrderWithPayment
 
   - dimension: original_order
     sql: ${TABLE}.OriginalOrder
 
-  - measure: total_paid_local
+  - dimension: original_order_id_int
+    type: int
+    sql: ${TABLE}.original_order_id_int
+
+  - measure: paid_local
     type: sum
     sql: ${TABLE}.Paid
+    
+#   - dimension: has_cash_payment
+#     type: int
+#     sql: IF (${paid_local} > 0, 1, 0)
+#     
+  - dimension: has_cash_or_gift_payment
+    type: yesno
+    sql: IF ((${TABLE}.Paid + ${TABLE}.GiftsUsed) > 0,TRUE, FALSE)
+
+  - measure: paid_plus_gift_percent
+    type: sum
+    sql: ${TABLE}.PaidPlusGiftPercent
 
   - dimension: promo
     sql: ${TABLE}.Promo
 
-  - measure: repeat_revenue_local
+  - measure: remake_quantity_made
+    type: sum
+    sql: ${TABLE}.remake_quantity_made
+
+  - measure: repeat_revenue
     type: sum
     sql: ${TABLE}.RepeatRevenue
 
@@ -182,17 +223,25 @@
     type: sum
     sql: ${TABLE}.RepeatRevenueAUD
 
-#   - dimension: sales_region
-#     sql: ${TABLE}.SalesRegion
+  - dimension: sales_region
+    sql: ${TABLE}.SalesRegion
 
   - dimension: sales_rep
     sql: ${TABLE}.SalesRep
 
-  - measure: shoe_order_amount_aud
+  - measure: shoe_order_amount
     type: sum
     sql: ${TABLE}.ShoeOrderAmount
 
-  - measure: shoe_paid_revenue_aud
+  - measure: shoe_order_amount_usd
+    type: sum
+    sql: ${TABLE}.ShoeOrderAmountUSD
+
+  - measure: shoe_paid_plus_redeemed_usd
+    type: sum
+    sql: ${TABLE}.ShoePaidPlusRedeemedUSD
+
+  - measure: shoe_paid_revenue
     type: sum
     sql: ${TABLE}.ShoePaidRevenue
 
@@ -215,32 +264,41 @@
     sql: ${TABLE}.TotalCreditsAUD
 
   - measure: total_paid_aud
-    type: number
+    type: sum
     sql: ${TABLE}.TotalPaidAUD
+
+  - measure: total_paid_plus_redeemend_revenue_usd
+    type: sum
+    sql: ${TABLE}.TotalPaidPlusRedeemendRevenueUSD
 
   - measure: total_paid_revenue_aud
     type: sum
     sql: ${TABLE}.TotalPaidRevenueAUD
-    
+
   - measure: total_paid_revenue_usd
     type: sum
-    sql: ${TABLE}.TotalPaidRevenueAUD * ${aud_to_usd_rate_on_date}
+    sql: ${TABLE}.TotalPaidRevenueUSD
 
   - measure: total_revenue
     type: sum
     sql: ${TABLE}.TotalRevenue
 
   - measure: total_revenue_aud
-    type: number
+    type: sum
     sql: ${TABLE}.TotalRevenueAUD
 
-  - measure: turnaround_time
+  - measure: total_revenue_usd
+    type: sum
+    sql: ${TABLE}.TotalRevenueUSD
+
+  - dimension: turnaround_time
     sql: ${TABLE}.TurnaroundTime
 
   - dimension_group: unix_timestamp
     type: time
     timeframes: [time, date, week, month]
-    sql: ${TABLE}.UnixTimestamp
+    datatype: epoch
+    sql: (${TABLE}.UnixTimestamp)/1000000
 
   - measure: value_gifts
     type: sum
@@ -283,12 +341,30 @@
 
   - dimension: website
     sql: ${TABLE}.Website
+    
+  - dimension: sales_channel
+    sql: |
+          CASE  WHEN ${website} CONTAINS 'iPad' THEN 'Store iPad App'
+                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'shoesofprey.com'
+                WHEN ${website} = 'www.nordstrom.com' THEN 'nordstrom.com'
+                ELSE 'Other'
+          END
 
+  - dimension: distribution_partner
+    sql: |
+          CASE  WHEN ${website} CONTAINS 'westfield' THEN 'Westfield'
+                WHEN ${website} CONTAINS 'david' THEN 'DJs'
+                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'Shoes of Prey Direct'
+                WHEN ${website} = 'www.nordstrom.com' THEN 'Nordstrom.com'
+                WHEN ${website} CONTAINS 'nordstrom' THEN 'Nordstrom Store'
+                ELSE 'Other'
+          END
+  
   - dimension: zip
     sql: ${TABLE}.Zip
 
-  - measure: count
-    type: count
+#   - measure: count
+#     type: count
 #     approximate_threshold: 100000
-    drill_fields: [fiscal_month_name]
+#     drill_fields: [fiscal_month_name]
 

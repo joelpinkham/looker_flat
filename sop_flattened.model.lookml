@@ -7,5 +7,9 @@
 # NOTE: for BigQuery specific considerations
 
 - explore: sales
-- explore: sales_flat_with_remakes
+  
+  always_filter: 
+    is_remake: no
+    is_internal: no
+
 - explore: customers
