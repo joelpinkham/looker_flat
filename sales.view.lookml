@@ -10,8 +10,7 @@
     
   - dimension: affiliate_group
     sql: |
-          CASE  WHEN regexp_match(${affiliate}, 'google|Google|GDN|FB|bing|Bing') THEN 'Online Paid Advertising'
-                WHEN ${affiliate} = 'EasyWeddings' THEN 'Wedding Directory'
+          CASE  WHEN regexp_match(${affiliate}, 'google|Google|GDN|FB|bing|Bing|EasyWeddings|hivewyre') THEN 'Online Paid Advertising'
                 WHEN regexp_match(${affiliate}, 'nordstrom|Nordstrom|david-jones|djs|westfield|Westfield') THEN 'Retail Partners'
                 ELSE 'Other'
           END
@@ -41,15 +40,18 @@
     
   - dimension: country_group
     sql: |
-          CASE WHEN ${country} = 'US'
-              WHEN ${country} = 'AU'
+          CASE WHEN ${country} = 'US' THEN 'US'
+              WHEN ${country} = 'AU' THEN 'AU'
               ELSE 'International'
           END
-    
 
   - measure: credits_used
     type: sum
     sql: ${TABLE}.CreditsUsed
+    
+  - measure: credits_used_usd
+    type: sum
+    sql: ${TABLE}.CreditsUsedUSD
 
   - dimension: currency
     sql: ${TABLE}.Currency
