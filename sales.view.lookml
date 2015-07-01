@@ -64,6 +64,7 @@
     type: time
     timeframes: [date, week, month]
     sql: ${TABLE}.Date
+    datatype: date
 
   - dimension: express_production
     type: int

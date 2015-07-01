@@ -12,6 +12,7 @@
 
 
   - dimension: customer_id
+    primary_key: true
     sql: ${TABLE}.CustomerID
 
   - dimension: customer_tags

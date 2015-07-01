@@ -7,9 +7,13 @@
 # NOTE: for BigQuery specific considerations
 
 - explore: sales
+  joins: 
+    - join: customers
+      foreign_key: customer_id
   
   always_filter: 
     is_remake: no
     is_internal: no
 
 - explore: customers
+ 
