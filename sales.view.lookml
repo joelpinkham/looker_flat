@@ -45,7 +45,7 @@
               ELSE 'International'
           END
 
-  - measure: credits_used
+  - measure: credits_used_local
     type: sum
     sql: ${TABLE}.CreditsUsed
     
@@ -204,7 +204,7 @@
     type: int
     sql: ${TABLE}.original_order_id_int
 
-  - measure: paid_local
+  - measure: total_paid_local
     type: sum
     sql: ${TABLE}.Paid
     
@@ -263,21 +263,40 @@
   - dimension: status
     sql: ${TABLE}.Status
 
-  - measure: total
+  - measure: total_local
     type: sum
     sql: ${TABLE}.Total
 
   - measure: total_aud
     type: sum
     sql: ${TABLE}.TotalAUD
+    
+  - dimension: total_usd_dim
+    sql: ${TABLE}.TotalAUD * ${aud_to_usd_rate_on_date}
+    hidden: true
+  
+  - measure: total_usd
+    value_format: $#,##0
+    sql: SUM(${total_usd_dim})
+    
 
-  - measure: total_credits_aud
+  - measure: credits_used_aud
     type: sum
     sql: ${TABLE}.TotalCreditsAUD
 
   - measure: total_paid_aud
     type: sum
     sql: ${TABLE}.TotalPaidAUD
+    
+  - dimension: total_paid_usd_dim
+#     type: sum
+    sql: ${TABLE}.TotalPaidAUD * ${aud_to_usd_rate_on_date}
+    hidden: true
+    
+  - measure: total_paid_usd
+    type: sum
+    value_format: $#,##0
+    sql: SUM(${total_paid_usd_dim})
 
   - measure: total_paid_plus_redeemend_revenue_usd
     type: sum
@@ -289,10 +308,12 @@
 
   - measure: total_paid_revenue_usd
     type: sum
+    value_format: $#,##0.00
     sql: ${TABLE}.TotalPaidRevenueUSD
 
-  - measure: total_revenue
+  - measure: total_revenue_local
     type: sum
+    value_format: #,##0.00
     sql: ${TABLE}.TotalRevenue
 
   - measure: total_revenue_aud
@@ -335,6 +356,13 @@
   - measure: value_sales_tax_local
     type: sum
     sql: ${TABLE}.ValueSalesTaxLocal
+    
+  - dimension: value_sales_tax_usd_dim
+    hidden: true
+    sql: ${TABLE}.ValueSalesTaxAUD * ${aud_to_usd_rate_on_date}
+    
+  - measure: value_sales_tax_usd
+    sql: SUM(${value_sales_tax_usd_dim})
 
   - measure: value_shipping_aud
     type: sum
