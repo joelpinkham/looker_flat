@@ -380,7 +380,12 @@
     
   - dimension: sales_channel
     sql: |
-          CASE  WHEN ${website} CONTAINS 'iPad' THEN 'Store iPad App'
+          CASE  WHEN ${website} CONTAINS 'iPad' THEN 
+                    CASE  WHEN ${website} CONTAINS 'nordstrom' THEN 'Nordstrom Store'
+                          WHEN ${website} CONTAINS 'david' THEN 'DJs In-Store'
+                          WHEN ${website} CONTAINS 'westfield' THEN 'Westfield Store'
+                          ELSE 'Other Store'
+                    END
                 WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'shoesofprey.com'
                 WHEN ${website} = 'www.nordstrom.com' THEN 'nordstrom.com'
                 ELSE 'Other'
