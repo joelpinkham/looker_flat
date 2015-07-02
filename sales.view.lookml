@@ -11,7 +11,6 @@
   - dimension: affiliate_group
     sql: |
           CASE  WHEN regexp_match(${affiliate}, 'google|Google|GDN|FB|bing|Bing|EasyWeddings|hivewyre') THEN 'Online Paid Advertising'
-                WHEN regexp_match(${affiliate}, 'nordstrom|Nordstrom|david-jones|djs|westfield|Westfield') THEN 'Retail Partners'
                 ELSE 'Other'
           END
 
