@@ -381,12 +381,12 @@
   - dimension: sales_channel
     sql: |
           CASE  WHEN ${website} CONTAINS 'iPad' THEN 
-                    CASE  WHEN ${website} CONTAINS 'nordstrom' THEN 'Nordstrom Store'
-                          WHEN ${website} CONTAINS 'david' THEN 'DJs In-Store'
-                          WHEN ${website} CONTAINS 'westfield' THEN 'Westfield Store'
-                          ELSE 'Other Store'
+                    CASE  WHEN ${website} CONTAINS 'nordstrom' THEN 'Store - Nordstrom'
+                          WHEN ${website} CONTAINS 'david' THEN 'Store - DJ\'s'
+                          WHEN ${website} CONTAINS 'westfield' THEN 'Store - Westfield'
+                          ELSE 'Store - Other'
                     END
-                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'shoesofprey.com'
+                WHEN ${website} CONTAINS 'www.shoesofprey' THEN CONCAT('shoesofprey.com - ',${country_group},' - ',${affiliate_group})
                 WHEN ${website} = 'www.nordstrom.com' THEN 'nordstrom.com'
                 ELSE 'Other'
           END
