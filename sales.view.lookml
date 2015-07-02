@@ -92,9 +92,18 @@
   - dimension: gift_voucher
     sql: ${TABLE}.GiftVoucher
 
-  - measure: gifts_used
+  - measure: gifts_used_local
     type: sum
     sql: ${TABLE}.GiftsUsed
+    
+  - dimension: gifts_used_usd_dim
+    type: number
+    sql: ${TABLE}.GiftsUsed * ${local_to_usd_rate_on_date}
+    hidden: true
+    
+  - measure: gifts_used_usd
+    type: sum
+    sql: SUM(${gifts_used_usd_dim})
 
   - dimension: is_internal
     type: yesno
@@ -114,7 +123,7 @@
     type: sum
     sql: ${TABLE}.LeathersPaidRevenue
 
-  - measure: local_to_usd_rate_on_date
+  - dimension: local_to_usd_rate_on_date
     #type: sum
     sql: ${TABLE}.LocalToUsdRateOnDate
 
@@ -306,10 +315,6 @@
   - measure: value_gifts
     type: sum
     sql: ${TABLE}.ValueGifts
-
-  - measure: value_gifts_aud
-    type: sum
-    sql: ${TABLE}.ValueGiftsAUD
 
   - measure: value_item_add_ons_aud
     type: sum
