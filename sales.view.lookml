@@ -331,6 +331,10 @@
     timeframes: [time, date, week, month]
     datatype: epoch
     sql: (${TABLE}.UnixTimestamp)/1000000
+    
+  - dimension: week_commencing_sunday
+    type: date
+    sql: FORMAT_UTC_USEC(UTC_USEC_TO_WEEK(TIMESTAMP_TO_USEC(${TABLE}.UnixTimestamp), 0))
 
   - measure: value_gifts
     type: sum
