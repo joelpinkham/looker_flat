@@ -225,6 +225,14 @@
   - measure: remake_quantity_made
     type: sum
     sql: ${TABLE}.remake_quantity_made
+    
+  - dimension_group: remake_order_timestamp
+    type: time
+    timeframes: [time, date, week, month]
+    datatype: epoch
+    sql: (${TABLE}.remake_order_timestamp)/1000000
+    
+
 
   - measure: repeat_revenue
     type: sum
@@ -331,6 +339,20 @@
     timeframes: [time, date, week, month]
     datatype: epoch
     sql: (${TABLE}.UnixTimestamp)/1000000
+    
+  - dimension: time_to_first_remake_from_order_days
+    type: int
+    sql: DATEDIFF((${TABLE}.remake_order_timestamp)/1000000, (${TABLE}.UnixTimestamp)/1000000)
+    
+  - dimension: time_to_first_remake_from_order_weeks
+    sql: round(${time_to_first_remake_from_order_days} / 7 + 0.5,0)
+#           CASE  WHEN ${time_to_first_remake_from_order_days} < 167 THEN concat('Week ', string())
+#                 ELSE '> 26+ Weeks'
+#             END
+    
+#   - dimension: time_to_first_remake_from_shipping
+#     type: int
+#     sql: DATEDIFF((${TABLE}.remake_order_timestamp)/1000000, (${TABLE}.UnixTimestamp)/1000000)
     
   - dimension: week_commencing_sunday
     type: date
