@@ -13,7 +13,8 @@
 
   - dimension: customer_id
     primary_key: true
-    sql: ${TABLE}.CustomerID
+    type: int
+    sql: INTEGER(${TABLE}.CustomerID)
 
   - dimension: customer_tags
     sql: ${TABLE}.CustomerTags

@@ -58,6 +58,10 @@
   - dimension: customer_id
     type: int
     sql: ${TABLE}.CustomerID
+    
+  - measure: count_customer
+    type: int
+    sql: exact_count_distinct(${customer_id})
 
   - dimension: date
     type: time
@@ -69,7 +73,10 @@
     type: int
     sql: ${TABLE}.ExpressProduction
 
-  - dimension: first_order_date
+  - dimension_group: first_order_date
+    type: time
+    datatype: date
+    timeframes: [time, date, week, month]
     sql: ${TABLE}.FirstOrderDate
 
   - dimension: fiscal_month_name
@@ -157,6 +164,10 @@
   - measure: num_paid
     type: sum
     sql: ${TABLE}.NumPaid
+    
+  - dimension: has_paid_shoe
+    type: yesno
+    sql: IF(${TABLE}.NumPaid > 0, true, false)
 
   - measure: num_pairs
     type: sum
@@ -420,10 +431,9 @@
     sql: |
           CASE  WHEN ${website} CONTAINS 'westfield' THEN 'Westfield'
                 WHEN ${website} CONTAINS 'david' THEN 'DJs'
-                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'Shoes of Prey Direct'
                 WHEN ${website} = 'www.nordstrom.com' THEN 'Nordstrom.com'
                 WHEN ${website} CONTAINS 'nordstrom' THEN 'Nordstrom Store'
-                ELSE 'Other'
+                ELSE 'Shoes of Prey Direct'
           END
   
   - dimension: zip

@@ -10,6 +10,7 @@
   joins: 
     - join: customers
       foreign_key: customer_id
+      type: left_outer_each
   
   always_filter: 
     is_remake: no
