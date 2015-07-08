@@ -408,6 +408,15 @@
     type: sum
     sql: ${TABLE}.ValueShippingAUD
 
+  - dimension: value_shipping_usd_dim
+    sql: ${TABLE}.ValueShippingAUD * ${aud_to_usd_rate_on_date}
+    hidden: true
+    
+  - measure: value_shipping_usd
+    type: sum
+    value_format: $#,##0
+    sql: ${value_shipping_usd_dim}
+
   - measure: value_shoes
     type: sum
     sql: ${TABLE}.ValueShoes
