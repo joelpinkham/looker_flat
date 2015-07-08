@@ -169,6 +169,10 @@
     type: yesno
     sql: IF(${TABLE}.NumPaid > 0, true, false)
 
+  - dimension: has_shoe
+    type: yesno
+    sql: IF(${TABLE}.NumPairs > 0, true, false)
+
   - measure: num_pairs
     type: sum
     sql: ${TABLE}.NumPairs
