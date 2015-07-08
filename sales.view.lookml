@@ -407,6 +407,10 @@
   - measure: value_shipping_aud
     type: sum
     sql: ${TABLE}.ValueShippingAUD
+    
+  - dimension: has_shipping_charge
+    type: yesno
+    sql: IF(${TABLE}.ValueShippingAUD > 0, true, false)
 
   - dimension: value_shipping_usd_dim
     sql: ${TABLE}.ValueShippingAUD * ${aud_to_usd_rate_on_date}
