@@ -93,13 +93,15 @@
 
   - measure: gift_paid_revenue_aud
     type: sum
+    value_format: $#,##0
     sql: ${TABLE}.GiftPaidRevenue
     
   - dimension: gift_paid_revenue_usd_dim
     sql: ${TABLE}.GiftPaidRevenue * ${aud_to_usd_rate_on_date}
   
   - measure: gift_paid_revenue_usd
-    value_format: $#,##0.00
+    type: number
+    value_format: $#,##0
     sql: sum(${gift_paid_revenue_usd_dim})
 
   - dimension: gift_voucher
