@@ -91,9 +91,16 @@
   - dimension: free_gift_cert
     sql: ${TABLE}.FreeGiftCert
 
-  - measure: gift_paid_revenue
+  - measure: gift_paid_revenue_aud
     type: sum
     sql: ${TABLE}.GiftPaidRevenue
+    
+  - dimension: gift_paid_revenue_usd_dim
+    sql: ${TABLE}.GiftPaidRevenue * ${aud_to_usd_rate_on_date}
+  
+  - measure: gift_paid_revenue_usd
+    value_format: $#,##0.00
+    sql: sum(${gift_paid_revenue_usd_dim})
 
   - dimension: gift_voucher
     sql: ${TABLE}.GiftVoucher
@@ -108,7 +115,7 @@
     hidden: true
     
   - measure: gifts_used_usd
-    type: sum
+    value_format: $#,##0.00
     sql: SUM(${gifts_used_usd_dim})
 
   - dimension: is_internal
