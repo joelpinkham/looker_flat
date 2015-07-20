@@ -2,7 +2,10 @@
   sql_table_name: SOP_Views.SalesFlatWithRemakes
   fields:
 
-  - dimension: account_created_date
+  - dimension_group: account_created_date
+    type: time
+    datatype: date
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.AccountCreatedDate
 
   - dimension: affiliate
@@ -364,6 +367,8 @@
     datatype: epoch
     sql: (${TABLE}.UnixTimestamp)/1000000
     
+#   - dimension: fiscal_quarter
+    
   - dimension: time_to_first_remake_from_order_days
     type: int
     sql: DATEDIFF((${TABLE}.remake_order_timestamp)/1000000, (${TABLE}.UnixTimestamp)/1000000)
@@ -450,6 +455,14 @@
                     END
                 WHEN ${website} CONTAINS 'www.shoesofprey' THEN CONCAT('shoesofprey.com - ',${country_group},' - ',${affiliate_group})
                 WHEN ${website} = 'www.nordstrom.com' THEN 'nordstrom.com'
+                ELSE 'Other'
+          END
+          
+  - dimension: sales_channel_pitch_deck
+    sql: |
+          CASE  WHEN ${website} CONTAINS 'iPad' THEN 'Offline Stores'
+                WHEN ${website} CONTAINS 'www.shoesofprey' THEN 'ShoesOfPrey.com'
+                WHEN ${website} = 'www.nordstrom.com' THEN 'Nordstrom.com'
                 ELSE 'Other'
           END
 
