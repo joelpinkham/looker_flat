@@ -299,10 +299,12 @@
 
   - measure: total_local
     type: sum
+    value_format: '$#,##0'
     sql: ${TABLE}.Total
 
   - measure: total_aud
     type: sum
+    value_format: '$#,##0'
     sql: ${TABLE}.TotalAUD
     
   - dimension: total_usd_dim
@@ -310,7 +312,7 @@
     hidden: true
   
   - measure: total_usd
-    value_format: $#,##0
+    value_format: '$#,##0'
     sql: SUM(${total_usd_dim})
     
 
@@ -319,49 +321,55 @@
     sql: ${TABLE}.TotalCreditsAUD
 
   - measure: total_paid_aud
+    value_format: '$#,##0'
     type: sum
     sql: ${TABLE}.TotalPaidAUD
     
   - dimension: total_paid_usd_dim
 #     type: sum
+    value_format: '$#,##0'
     sql: ${TABLE}.TotalPaidAUD * ${aud_to_usd_rate_on_date}
     hidden: true
     
   - measure: total_paid_usd
     type: sum
-    value_format: $#,##0
+    value_format: '$#,##0'
     sql: SUM(${total_paid_usd_dim})
 
   - measure: total_paid_plus_redeemend_revenue_usd
     type: sum
+    value_format: '$#,##0'
     sql: ${TABLE}.TotalPaidPlusRedeemendRevenueUSD
 
   - measure: total_paid_revenue_aud
+    value_format: '$#,##0'
     type: sum
     sql: ${TABLE}.TotalPaidRevenueAUD
 
   - measure: total_paid_revenue_usd
     type: sum
-    value_format: $#,##0.00
+    value_format: '$#,##0'
     sql: ${TABLE}.TotalPaidRevenueUSD
 
   - measure: total_revenue_local
     type: sum
-    value_format: #,##0.00
+    value_format: '$#,##0'
     sql: ${TABLE}.TotalRevenue
 
   - measure: total_revenue_aud
+    value_format: '$#,##0'
     type: sum
     sql: ${TABLE}.TotalRevenueAUD
 
   - measure: total_revenue_usd
+    value_format: '$#,##0'
     type: sum
     sql: ${TABLE}.TotalRevenueUSD
 
   - dimension: turnaround_time
     sql: ${TABLE}.TurnaroundTime
 
-  - dimension_group: unix_timestamp
+  - dimension_group: date_utc
     type: time
     timeframes: [time, date, week, month]
     datatype: epoch
