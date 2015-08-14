@@ -313,7 +313,8 @@
   
   - measure: total_usd
     value_format: '$#,##0'
-    sql: SUM(${total_usd_dim})
+    type: sum
+    sql: ${total_usd_dim}
     
 
   - measure: credits_used_aud
@@ -424,7 +425,9 @@
     sql: ${TABLE}.ValueSalesTaxAUD * ${aud_to_usd_rate_on_date}
     
   - measure: value_sales_tax_usd
-    sql: SUM(${value_sales_tax_usd_dim})
+    type: sum
+    value_format: '$#,##0'
+    sql: ${value_sales_tax_usd_dim}
 
   - measure: value_shipping_aud
     type: sum
@@ -440,7 +443,7 @@
     
   - measure: value_shipping_usd
     type: sum
-    value_format: $#,##0
+    value_format: '$#,##0'
     sql: ${value_shipping_usd_dim}
 
   - measure: value_shoes
