@@ -87,6 +87,22 @@
   - measure: num_orders_lifetime
     type: sum
     sql: ${TABLE}.NumOrdersLifetime
+    
+  - dimension: num_orders_lifetime_group
+    type: tier
+    tiers: [1,2,3,4]
+    style: integer
+    sql: ${TABLE}.NumOrdersLifetime
+    
+  - dimension: num_orders_3mo_group
+    type: tier
+    tiers: [1,2,3,4]
+    style: integer
+    sql: ${TABLE}.NumOrders3Month
+    
+  - dimension: has_purchased_shoe
+    type: yesno
+    sql: IF(${TABLE}.NumShoesPurchased > 0, true, false)
 
   - measure: num_remakes
     type: sum

@@ -219,6 +219,11 @@
   - dimension: order_id_int
     type: int
     sql: ${TABLE}.order_id_int
+    
+  - dimension: order_id_admin_url
+    sql: ${order_id}
+    html: |
+          <a href="https://www.shoesofprey.com/admin/order/{{ value }}">View {{ value }}</a>
 
   - dimension: order_with_payment
     sql: ${TABLE}.OrderWithPayment
