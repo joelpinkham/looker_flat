@@ -188,6 +188,11 @@
   - measure: num_pairs
     type: sum
     sql: ${TABLE}.NumPairs
+    
+  - measure: num_pairs_per_order
+    type: number
+    value_format: '0.00'
+    sql: sum(${num_paid}) / sum(${num_shoe_orders})
 
   - measure: num_redeemed
     type: sum
