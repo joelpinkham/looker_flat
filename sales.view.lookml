@@ -66,11 +66,11 @@
     type: int
     sql: exact_count_distinct(${customer_id})
 
-  - dimension: date
-    type: time
-    timeframes: [date, week, month]
-    sql: ${TABLE}.Date
-    datatype: date
+#   - dimension: date
+#     type: time
+#     timeframes: [date, week, month]
+#     sql: ${TABLE}.Date
+#     datatype: date
 
   - dimension: express_production
     type: int
@@ -381,10 +381,27 @@
     sql: ${TABLE}.TurnaroundTime
 
   - dimension_group: date_utc
+    label: "Date UTC"
     type: time
-    timeframes: [time, date, week, month]
+    timeframes: [time, date, week, month, hour_of_day]
     datatype: epoch
     sql: (${TABLE}.UnixTimestamp)/1000000
+    
+  - dimension_group: date_pdt
+    label: "Date PDT"
+    type: time
+    timeframes: [time, date, week, month, hour_of_day]
+    datatype: epoch
+    sql: ((${TABLE}.UnixTimestamp)/1000000) - 7*60*60
+    
+  - dimension_group: date_aest
+    label: "Date AEST"
+    type: time
+    timeframes: [time, date, week, month, hour_of_day]
+    datatype: epoch
+    sql: ((${TABLE}.UnixTimestamp)/1000000) + 10*60*60
+    
+    
     
 #   - dimension: fiscal_quarter
     
