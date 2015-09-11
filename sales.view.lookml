@@ -177,6 +177,12 @@
     type: sum
     sql: ${TABLE}.NumPaid
     
+  - dimension: num_paid_tier
+    type: tier
+    tiers: [0,1,2,3,4,5]
+    style: integer
+    sql: ${TABLE}.NumPaid
+    
   - dimension: has_paid_shoe
     type: yesno
     sql: IF(${TABLE}.NumPaid > 0, true, false)
