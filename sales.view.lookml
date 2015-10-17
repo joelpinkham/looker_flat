@@ -358,6 +358,8 @@
     sql: ${TABLE}.TotalPaidRevenueAUD
 
   - measure: total_paid_revenue_usd
+    label: 'Total Sales USD'
+    description: 'Replaced total paid revenue - only includes actual credit card payments received from customers and does not include gift certificates, credits or discounts'
     type: sum
     value_format: '$#,##0'
     sql: ${TABLE}.TotalPaidRevenueUSD
