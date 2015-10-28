@@ -463,6 +463,11 @@
     type: sum
     value_format: '$#,##0'
     sql: ${value_sales_tax_usd_dim}
+  
+  - measure: value_sales_taxable_usd
+    type: sum
+    value_format: '$#,##0'
+    sql: (${TABLE}.TotalPaidRevenueAUD - ${TABLE}.GiftPaidRevenue) * ${TABLE}.AudToUsdRateOnDate
 
   - measure: value_shipping_aud
     type: sum
