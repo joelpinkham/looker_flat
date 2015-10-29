@@ -7,6 +7,7 @@
 # NOTE: for BigQuery specific considerations
 
 - explore: sales
+  label: "Sales (don't use)"
   joins: 
     - join: customers
       foreign_key: customer_id
@@ -17,4 +18,5 @@
     is_internal: no
 
 - explore: customers
+  label: "Customers (don't use)"
  

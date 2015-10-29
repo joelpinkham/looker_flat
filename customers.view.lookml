@@ -10,6 +10,11 @@
   - dimension: affiliate_source_plus_slp
     sql: IF(regexp_match(${customer_tags}, 'shoe-type|size|path-') AND AffiliateSource == '', 'Google-SLP', ${TABLE}.AffiliateSource)
 
+  - dimension: affiliate_group
+    sql: |
+          CASE  WHEN regexp_match(${affiliate_source_plus_slp}, 'google|Google|GDN|FB|bing|Bing|EasyWeddings|hivewyre') THEN 'Online Paid Advertising'
+                ELSE 'Other'
+          END
 
   - dimension: customer_id
     primary_key: true
@@ -29,6 +34,8 @@
 
   - dimension: first_order_date
     sql: ${TABLE}.FirstOrderDate
+    type: time
+    timeframes: [date, week, month, year]
 
   - dimension: first_saved_date
     sql: ${TABLE}.FirstSavedDate
