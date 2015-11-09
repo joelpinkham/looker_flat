@@ -396,14 +396,14 @@
     sql: (${TABLE}.UnixTimestamp)/1000000  - 11*60*60
     
   - dimension_group: date_pdt
-    label: "Date PDT"
+    label: "Date PST"
     type: time
     timeframes: [time, date, week, month, hour_of_day]
     datatype: epoch
     sql: ((${TABLE}.UnixTimestamp)/1000000) - 19*60*60
     
   - dimension_group: date_aest
-    label: "Date AEST"
+    label: "Date AEDT"
     type: time
     timeframes: [time, date, week, month, hour_of_day]
     datatype: epoch
