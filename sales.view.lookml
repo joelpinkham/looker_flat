@@ -393,21 +393,21 @@
     type: time
     timeframes: [time, date, week, month, hour_of_day]
     datatype: epoch
-    sql: (${TABLE}.UnixTimestamp)/1000000
+    sql: (${TABLE}.UnixTimestamp)/1000000  - 11*60*60
     
   - dimension_group: date_pdt
     label: "Date PDT"
     type: time
     timeframes: [time, date, week, month, hour_of_day]
     datatype: epoch
-    sql: ((${TABLE}.UnixTimestamp)/1000000) - 7*60*60
+    sql: ((${TABLE}.UnixTimestamp)/1000000) - 19*60*60
     
   - dimension_group: date_aest
     label: "Date AEST"
     type: time
     timeframes: [time, date, week, month, hour_of_day]
     datatype: epoch
-    sql: ((${TABLE}.UnixTimestamp)/1000000) + 10*60*60
+    sql: ((${TABLE}.UnixTimestamp)/1000000)
     
     
     
